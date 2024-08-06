@@ -83,23 +83,26 @@ const FOOTER_INJECT = getEnv(import.meta.env, Astro, 'FOOTER_INJECT')
         .nav-link {
             display: block;
             padding: 10px 20px;
-            background-color: #007bff;
+            background-color: #FF8C3C; /* 设置按钮背景色 */
             color: white;
             text-decoration: none;
             border-radius: 12px; /* 圆角处理 */
+            border: 2px solid #FF8C3C; /* 等长边框 */
             transition: background-color 0.3s ease;
+            text-align: center; /* 居中对齐 */
         }
         .nav-link:hover {
-            background-color: #0056b3;
+            background-color: #FF7030; /* 鼠标悬停时的背景色 */
         }
         .search-icon {
             padding: 5px;
             border-radius: 12px; /* 圆角处理 */
-            border: 1px solid #ccc;
+            border: 2px solid #FF8C3C; /* 等长边框 */
             transition: border-color 0.3s ease;
+            color: #FF8C3C; /* 设置输入框文字颜色 */
         }
         .search-icon:focus {
-            border-color: #007bff;
+            border-color: #FF7030; /* 输入框聚焦时的边框颜色 */
             outline: none;
         }
     </style>

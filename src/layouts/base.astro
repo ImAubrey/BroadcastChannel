@@ -73,6 +73,36 @@ const FOOTER_INJECT = getEnv(import.meta.env, Astro, 'FOOTER_INJECT')
       {...seoParams}
     />
     <Fragment set:html={HEADER_INJECT} />
+    <style>
+        .nav {
+            margin-bottom: 10px;
+        }
+        .nav-item {
+            display: inline-block;
+        }
+        .nav-link {
+            display: block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px; /* 圆角处理 */
+            transition: background-color 0.3s ease;
+        }
+        .nav-link:hover {
+            background-color: #0056b3;
+        }
+        .search-icon {
+            padding: 5px;
+            border-radius: 12px; /* 圆角处理 */
+            border: 1px solid #ccc;
+            transition: border-color 0.3s ease;
+        }
+        .search-icon:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+    </style>
   </head>
   <body>
     <div id="wrapper">
@@ -85,9 +115,27 @@ const FOOTER_INJECT = getEnv(import.meta.env, Astro, 'FOOTER_INJECT')
             <div class="nav">
               <div class="nav-item">
                 <a
-                  href={SITE_URL}
+                  href=https://www.lain.sh
                   title={channel?.title}
                   class={`nav-link current`}>Home</a
+                >
+              </div>
+            </div>
+            <div class="nav">
+              <div class="nav-item">
+                <a
+                  href=https://dash.lain.sh
+                  title={channel?.title}
+                  class={`nav-link current`}>Dashboard</a
+                >
+              </div>
+            </div>
+            <div class="nav">
+              <div class="nav-item">
+                <a
+                  href=https://dash.lain.sh/ticket
+                  title={channel?.title}
+                  class={`nav-link current`}>Support</a
                 >
               </div>
             </div>

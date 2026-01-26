@@ -9,6 +9,15 @@ const posts = channel.posts ?? []
 
 const beforeCursor = posts[posts.length - 1]?.id
 const afterCursor = posts[0]?.id
+const noticeTags = new Set(['通知', '公告', 'notice', 'announcement'])
+const noticeIndex = posts.findIndex((post) =>
+  (post?.tags ?? []).some((tag) =>
+    noticeTags.has(String(tag || '').toLowerCase()),
+  ),
+)
+const noticePost = noticeIndex >= 0 ? posts[noticeIndex] : null
+const feedPosts =
+  noticeIndex >= 0 ? posts.filter((_, index) => index !== noticeIndex) : posts
 const tagCounts = posts.reduce((acc, post) => {
   const tags = post?.tags ?? []
   tags.forEach((tag) => {
@@ -68,8 +77,16 @@ const tagHue = (tag) => {
       )
     }
   </div>
+  {
+    noticePost && (
+      <section class="notice-section" aria-label="最新通知">
+        <div class="notice-title">最新通知</div>
+        <Item post={noticePost} index={0} variant="notice" />
+      </section>
+    )
+  }
   <div class="items">
-    {posts.map((post, index) => <Item post={post} index={index} />)}
+    {feedPosts.map((post, index) => <Item post={post} index={index} />)}
   </div>
 
   <div class="pages-container">

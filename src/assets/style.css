@@ -410,6 +410,47 @@ hr {
   gap: 8px;
 }
 
+.notice-section {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: calc(var(--box-border-radius) + 6px);
+  padding: 16px;
+  box-shadow: var(--shadows);
+  overflow: hidden;
+}
+
+.notice-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 0% 0%,
+    rgba(249, 115, 22, 0.16),
+    transparent 55%
+  );
+  pointer-events: none;
+}
+
+.notice-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #7c2d12;
+  letter-spacing: 0.3px;
+  position: relative;
+  z-index: 1;
+}
+
+.notice-section .item {
+  animation: none;
+}
+
+.notice-section .item-card {
+  box-shadow: none;
+}
+
 .tag-chip {
   --tag-hue: 170;
   display: inline-flex;
@@ -1262,6 +1303,10 @@ li:has(input[type='checkbox']:checked:disabled)::before {
   }
 
   .tag-summary {
+    padding: 14px;
+  }
+
+  .notice-section {
     padding: 14px;
   }
 

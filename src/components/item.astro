@@ -8,7 +8,8 @@ const timezone = getEnv(import.meta.env, Astro, 'TIMEZONE')
 locale && dayjs.locale(locale)
 
 const { SITE_URL } = Astro.locals
-const { post, index = 0 } = Astro.props
+const { post, index = 0, variant = '' } = Astro.props
+const isNotice = variant === 'notice'
 
 const tagHue = (tag) => {
   let hash = 0
@@ -25,10 +26,10 @@ const timeago = datetime.isBefore(dayjs().subtract(1, 'w'))
 ---
 
 <div
-  class="item"
+  class={`item${isNotice ? ' is-notice' : ''}`}
   style={{ 'view-transition-name': `post-${post.id}`, '--stagger': index }}
 >
-  <div class="item-card">
+  <div class={`item-card${isNotice ? ' notice-card' : ''}`}>
     <div class="time-box">
       <div class="dot"></div>
       <div class="time">
@@ -209,5 +210,14 @@ const timeago = datetime.isBefore(dayjs().subtract(1, 'w'))
 
   .tag-box {
     flex-wrap: wrap;
+  }
+
+  .item.is-notice .item-card {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 248, 237, 0.95),
+      rgba(255, 255, 255, 0.98)
+    );
+    border: 1px solid rgba(234, 88, 12, 0.2);
   }
 </style>

@@ -9,6 +9,26 @@ const posts = channel.posts ?? []
 
 const beforeCursor = posts[posts.length - 1]?.id
 const afterCursor = posts[0]?.id
+const tagCounts = posts.reduce((acc, post) => {
+  const tags = post?.tags ?? []
+  tags.forEach((tag) => {
+    const cleanTag = String(tag || '').trim()
+    if (!cleanTag) return
+    acc.set(cleanTag, (acc.get(cleanTag) ?? 0) + 1)
+  })
+  return acc
+}, new Map())
+const tagList = [...tagCounts.entries()]
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 24)
+
+const tagHue = (tag) => {
+  let hash = 0
+  for (let i = 0; i < tag.length; i += 1) {
+    hash = (hash * 31 + tag.charCodeAt(i)) % 360
+  }
+  return hash
+}
 // const cursor = +Astro.params.cursor
 ---
 
@@ -16,8 +36,40 @@ const afterCursor = posts[0]?.id
   <slot name="header">
     <Header channel={channel} />
   </slot>
+  <div class="feed-tools">
+    <form class="search-box" action="/search" method="get" role="search">
+      <input
+        type="text"
+        name="q"
+        placeholder="搜索频道内容 / Search"
+        autocomplete="off"
+      />
+      <button type="submit">搜索</button>
+    </form>
+    {
+      tagList.length > 0 && (
+        <section class="tag-summary" aria-label="标签归类">
+          <div class="tag-summary-title">标签归类</div>
+          <div class="tag-summary-list">
+            {tagList.map(([tag, count], index) => (
+              <a
+                href={`/search/%23${tag}`}
+                title={tag}
+                class="tag-chip"
+                data-tag={tag}
+                style={`--tag-hue:${tagHue(tag)}; --tag-index:${index};`}
+              >
+                <span class="tag-chip-label">#{tag}</span>
+                <span class="tag-chip-count">{count}</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </div>
   <div class="items">
-    {posts.map((post) => <Item post={post} />)}
+    {posts.map((post, index) => <Item post={post} index={index} />)}
   </div>
 
   <div class="pages-container">

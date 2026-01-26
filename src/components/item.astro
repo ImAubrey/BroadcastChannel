@@ -8,7 +8,15 @@ const timezone = getEnv(import.meta.env, Astro, 'TIMEZONE')
 locale && dayjs.locale(locale)
 
 const { SITE_URL } = Astro.locals
-const { post } = Astro.props
+const { post, index = 0 } = Astro.props
+
+const tagHue = (tag) => {
+  let hash = 0
+  for (let i = 0; i < tag.length; i += 1) {
+    hash = (hash * 31 + tag.charCodeAt(i)) % 360
+  }
+  return hash
+}
 
 const datetime = dayjs(post.datetime).tz(timezone)
 const timeago = datetime.isBefore(dayjs().subtract(1, 'w'))
@@ -16,37 +24,45 @@ const timeago = datetime.isBefore(dayjs().subtract(1, 'w'))
   : datetime.fromNow()
 ---
 
-<div class="item" style={{ 'view-transition-name': `post-${post.id}` }}>
-  <div class="time-box">
-    <div class="dot"></div>
-    <div class="time">
-      <a
-        href={`${SITE_URL}posts/${post.id}`}
-        title={post.datetime}
-        class="item-link">{timeago}</a
-      >
-    </div>
-  </div>
-  {
-    post.content.length > 0 && (
-      <div class={`text-box content`} set:html={post.content} />
-    )
-  }
-  {
-    post.tags.length > 0 && (
-      <div
-        class="tag-box"
-        style={post.content.length === 0 ? 'padding-top: 30px;' : ''}
-      >
-        <div class="tag-icon" />
-        {post.tags.map((tag) => (
-          <a href={`/search/%23${tag}`} title={tag} class="tag">
-            {tag}
-          </a>
-        ))}
+<div
+  class="item"
+  style={{ 'view-transition-name': `post-${post.id}`, '--stagger': index }}
+>
+  <div class="item-card">
+    <div class="time-box">
+      <div class="dot"></div>
+      <div class="time">
+        <a
+          href={`${SITE_URL}posts/${post.id}`}
+          title={post.datetime}
+          class="item-link">{timeago}</a
+        >
       </div>
-    )
-  }
+    </div>
+    {
+      post.content.length > 0 && (
+        <div class={`text-box content`} set:html={post.content} />
+      )
+    }
+    {
+      post.tags.length > 0 && (
+        <div class="tag-box">
+          <div class="tag-icon" />
+          {post.tags.map((tag) => (
+            <a
+              href={`/search/%23${tag}`}
+              title={tag}
+              class="tag"
+              data-tag={tag}
+              style={`--tag-hue:${tagHue(tag)};`}
+            >
+              {tag}
+            </a>
+          ))}
+        </div>
+      )
+    }
+  </div>
 </div>
 
 <style>
@@ -54,7 +70,7 @@ const timeago = datetime.isBefore(dayjs().subtract(1, 'w'))
     word-break: break-word;
   }
   .content :global(img) {
-    width: calc(100% - var(--box-margin));
+    width: 100%;
   }
   .content :global(.tgme_widget_message_link_preview) {
     margin-top: 16px;
@@ -70,11 +86,11 @@ const timeago = datetime.isBefore(dayjs().subtract(1, 'w'))
   .content
     :global(.tgme_widget_message_link_preview):has(.link_preview_site_name) {
     display: block;
-    background: var(--cell-background-color);
-    border-left: 3px solid var(--highlight-color);
-    padding: 6px;
-    padding-left: 10px;
-    border-radius: var(--box-border-radius);
+    background: var(--surface-strong);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--highlight-color);
+    padding: 10px 12px;
+    border-radius: 12px;
 
     .link_preview_title {
       display: block;
@@ -101,10 +117,15 @@ const timeago = datetime.isBefore(dayjs().subtract(1, 'w'))
     border: none;
     padding: 0;
     background: transparent;
+    border-radius: 12px;
+    overflow: hidden;
 
     .link_preview_image {
       aspect-ratio: 1200 / 630;
       object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadows);
     }
 
     .link_preview_site_name {
@@ -134,11 +155,11 @@ const timeago = datetime.isBefore(dayjs().subtract(1, 'w'))
   .content :global(blockquote) {
     margin: 16px 0;
     font-size: 0.8em;
-    background: var(--cell-background-color);
-    border-left: 3px solid var(--highlight-color);
-    padding: 6px;
-    padding-left: 10px;
-    border-radius: var(--box-border-radius);
+    background: var(--surface-strong);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--highlight-color);
+    padding: 10px 12px;
+    border-radius: 12px;
   }
 
   .content :global(.tgme_widget_message_sticker) {

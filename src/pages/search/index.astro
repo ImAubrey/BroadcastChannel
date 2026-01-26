@@ -1,0 +1,13 @@
+---
+import List from '../../components/list.astro'
+import { getChannelInfo } from '../../lib/telegram'
+
+const query = Astro.url.searchParams.get('q') || ''
+const channel = await getChannelInfo(Astro, {
+  q: query,
+})
+
+export const prerender = false
+---
+
+<List channel={channel} before={false} after={false} />

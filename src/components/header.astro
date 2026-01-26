@@ -155,7 +155,7 @@ const staticProxy = getEnv(import.meta.env, Astro, 'STATIC_PROXY') ?? '/static/'
 
 <style>
   #site-intro {
-    color: var(--secondary-color);
+    color: var(--foreground-secondary-color);
     word-break: break-word;
 
     & :global(.emoji) {
@@ -165,10 +165,10 @@ const staticProxy = getEnv(import.meta.env, Astro, 'STATIC_PROXY') ?? '/static/'
   }
 
   .social-icon {
-    padding: 4px;
+    padding: 0;
   }
 
   .header-icons {
-    gap: 2px;
+    gap: 8px;
   }
 </style>

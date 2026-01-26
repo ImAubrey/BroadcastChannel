@@ -48,7 +48,13 @@ const FOOTER_INJECT = getEnv(import.meta.env, Astro, 'FOOTER_INJECT')
 <html lang={locale ?? 'en'}>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f4f1ec" />
+    <meta name="theme-color" content="#f4efe8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="alternate"
       type="application/rss+xml"
@@ -73,39 +79,6 @@ const FOOTER_INJECT = getEnv(import.meta.env, Astro, 'FOOTER_INJECT')
       {...seoParams}
     />
     <Fragment set:html={HEADER_INJECT} />
-    <style>
-        .nav {
-            margin-bottom: 10px;
-        }
-        .nav-item {
-            display: inline-block;
-        }
-        .nav-link {
-            display: block;
-            padding: 10px 20px;
-            background-color: #FF8C3C; /* 设置按钮背景色 */
-            color: white;
-            text-decoration: none;
-            border-radius: 12px; /* 圆角处理 */
-            border: 2px solid #FF8C3C; /* 等长边框 */
-            transition: background-color 0.3s ease;
-            text-align: center; /* 居中对齐 */
-        }
-        .nav-link:hover {
-            background-color: #FF7030; /* 鼠标悬停时的背景色 */
-        }
-        .search-icon {
-            padding: 5px;
-            border-radius: 12px; /* 圆角处理 */
-            border: 2px solid #FF8C3C; /* 等长边框 */
-            transition: border-color 0.3s ease;
-            color: #FF8C3C; /* 设置输入框文字颜色 */
-        }
-        .search-icon:focus {
-            border-color: #FF7030; /* 输入框聚焦时的边框颜色 */
-            outline: none;
-        }
-    </style>
   </head>
   <body>
     <div id="wrapper">
@@ -113,50 +86,50 @@ const FOOTER_INJECT = getEnv(import.meta.env, Astro, 'FOOTER_INJECT')
         <div id="main-container">
           <slot />
         </div>
-        <div id="aside-container">
+        <aside id="aside-container">
           <slot name="aside">
-            <div class="nav">
-              <div class="nav-item">
-                <a
-                  href=https://www.lain.sh
-                  title={channel?.title}
-                  class={`nav-link current`}>Home</a
-                >
+            <div class="aside-stack">
+              <div class="aside-card nav-card">
+                <div class="aside-eyebrow">Quick links</div>
+                <nav class="side-nav">
+                  <a
+                    href="https://www.lain.sh"
+                    title={channel?.title}
+                    class="side-link current">Home</a
+                  >
+                  <a
+                    href="https://dash.lain.sh"
+                    title={channel?.title}
+                    class="side-link">Dashboard</a
+                  >
+                  <a
+                    href="https://dash.lain.sh/tickets"
+                    title={channel?.title}
+                    class="side-link">Support</a
+                  >
+                </nav>
               </div>
-            </div>
-            <div class="nav">
-              <div class="nav-item">
-                <a
-                  href=https://dash.lain.sh
-                  title={channel?.title}
-                  class={`nav-link current`}>Dashboard</a
-                >
+              <div class="aside-card search-card">
+                <div class="search-title">Search</div>
+                <input
+                  class="search-toggle"
+                  name="icon"
+                  type="checkbox"
+                  aria-label="Toggle search"
+                />
+                <form class="search-form" action="/search" method="get">
+                  <input type="text" name="q" placeholder="Search posts" />
+                </form>
               </div>
-            </div>
-            <div class="nav">
-              <div class="nav-item">
-                <a
-                  href=https://dash.lain.sh/ticket
-                  title={channel?.title}
-                  class={`nav-link current`}>Support</a
-                >
+              <div class="aside-card aside-footer">
+                <div class="copyright-wrap">
+                  Powered by BroadcastChannel<br />
+                  Lain.sh<br />
+                </div>
               </div>
-            </div>
-            <input
-              class="search-icon"
-              name="icon"
-              type="checkbox"
-              placeholder="Search"
-            />
-            <form class="search-form" action="/search/result" method="get">
-              <input type="text" name="q" placeholder="Search" />
-            </form>
-            <div class="copyright-wrap">
-              Powered by BroadcastChannel<br/>
-              Lain.sh<br/>
             </div>
           </slot>
-        </div>
+        </aside>
       </div>
     </div>
 
